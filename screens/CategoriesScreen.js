@@ -1,11 +1,38 @@
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 
-const CategoriesScreen = () => {
+import { CATEGORIES } from "../data/dummy-data";
+
+import CategoryGridTitle from "../components/CategoryGridTitle";
+
+const CategoriesScreen = (props) => {
+  const renderGridItem = (itemData) => {
+    return (
+      <CategoryGridTitle
+        title={itemData.item.title}
+        color={itemData.item.color}
+        onSelect={() => {
+          props.navigation.navigate("CategoryMeals", {
+            categoryId: itemData.item.id,
+          });
+        }}
+      />
+    );
+  };
+
   return (
-    <View style={styles.screen}>
-      <Text>The Categories Screen!</Text>
-    </View>
+    <FlatList numColumns={2} data={CATEGORIES} renderItem={renderGridItem} />
   );
+};
+
+CategoriesScreen.navigationOptions = {
+  headerTitle: "Meal Categories",
 };
 
 const styles = StyleSheet.create({
